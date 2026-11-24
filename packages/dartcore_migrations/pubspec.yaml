@@ -1,0 +1,20 @@
+name: dartcore_migrations
+description: "Schema builder, versioned migrations, seeders and a console runner for DartCore on PostgreSQL, MySQL and SQLite."
+version: 0.1.0
+repository: https://github.com/abqamar/dartcore_framework/tree/main/packages/dartcore_migrations
+issue_tracker: https://github.com/abqamar/dartcore_framework/issues
+topics:
+  - migrations
+  - database
+  - backend
+  - cli
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+dependencies:
+  dartcore_core: ^0.1.0
+  dartcore_db: ^0.1.0
+dev_dependencies:
+  dartcore_sqlite: ^0.1.0
+  lints: ^6.0.0
+  test: ^1.25.0

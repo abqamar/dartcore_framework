@@ -1,0 +1,8 @@
+.dart_tool/
+build/
+pubspec.lock
+.env
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+storage/logs/

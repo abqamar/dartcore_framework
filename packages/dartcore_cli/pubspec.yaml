@@ -1,0 +1,20 @@
+name: dartcore_cli
+description: "The dartcore command-line tool: scaffold projects, generate code, run migrations, diagnose your setup and build deployable binaries."
+version: 0.1.0
+repository: https://github.com/abqamar/dartcore_framework/tree/main/packages/dartcore_cli
+issue_tracker: https://github.com/abqamar/dartcore_framework/issues
+topics:
+  - cli
+  - backend
+  - scaffolding
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+executables:
+  dartcore:
+dependencies:
+  args: ^2.5.0
+  path: ^1.9.0
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.0

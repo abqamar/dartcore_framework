@@ -1,0 +1,11 @@
+name: basic_api
+description: A DartCore API with no database.
+publish_to: none
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+dependencies:
+  dartcore_framework: any
+  dartcore_dashboard: any
+dev_dependencies:
+  lints: ^6.0.0

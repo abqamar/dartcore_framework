@@ -1,0 +1,31 @@
+.dart_tool/
+pubspec.lock
+build/
+*.sqlite
+*.sqlite-journal
+.env
+!.env.example
+storage/logs/
+
+# --- Secrets and credentials: never commit ---
+.env.*
+!.env.example
+*.pem
+*.p8
+*.p12
+*.key
+*.jks
+*.keystore
+*service-account*.json
+
+# --- Local data and tool state ---
+*.db
+*.sqlite3
+.pub-cache/
+coverage/
+*.log
+.idea/
+*.iml
+.claude/
+.DS_Store
+Thumbs.db

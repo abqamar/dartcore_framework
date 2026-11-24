@@ -1,0 +1,23 @@
+name: dartcore_framework
+description: "A simple, modular backend SDK for Dart: HTTP API, SQL query builder, validation and config in one import. Add a database adapter and go."
+version: 0.1.0
+repository: https://github.com/abqamar/dartcore_framework/tree/main/packages/dartcore_framework
+issue_tracker: https://github.com/abqamar/dartcore_framework/issues
+topics:
+  - backend
+  - server
+  - api
+  - framework
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+dependencies:
+  dartcore_core: ^0.1.0
+  dartcore_logging: ^0.1.0
+  dartcore_validation: ^0.1.0
+  dartcore_db: ^0.1.0
+  dartcore_api: ^0.1.0
+dev_dependencies:
+  dartcore_sqlite: ^0.1.0
+  lints: ^6.0.0
+  test: ^1.25.0

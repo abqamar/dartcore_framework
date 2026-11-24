@@ -1,0 +1,19 @@
+name: dartcore_mysql
+description: "MySQL adapter for DartCore with pooled connections, transactions and consistent UTC date handling."
+version: 0.1.0
+repository: https://github.com/abqamar/dartcore_framework/tree/main/packages/dartcore_mysql
+issue_tracker: https://github.com/abqamar/dartcore_framework/issues
+topics:
+  - mysql
+  - database
+  - backend
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+dependencies:
+  dartcore_core: ^0.1.0
+  dartcore_db: ^0.1.0
+  mysql_dart: ^4.0.1
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.0

@@ -1,0 +1,20 @@
+name: dartcore_orm
+description: "An explicit, lightweight ORM for DartCore: models, relationships, eager loading without N+1, soft deletes and events."
+version: 0.1.0
+repository: https://github.com/abqamar/dartcore_framework/tree/main/packages/dartcore_orm
+issue_tracker: https://github.com/abqamar/dartcore_framework/issues
+topics:
+  - orm
+  - database
+  - backend
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+dependencies:
+  dartcore_core: ^0.1.0
+  dartcore_db: ^0.1.0
+  dartcore_validation: ^0.1.0
+dev_dependencies:
+  dartcore_sqlite: ^0.1.0
+  lints: ^6.0.0
+  test: ^1.25.0

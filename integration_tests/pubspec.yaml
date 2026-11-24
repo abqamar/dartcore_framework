@@ -1,0 +1,16 @@
+name: dartcore_integration_tests
+description: Adapter contract tests run against real databases (Docker).
+publish_to: none
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+dependencies:
+  dartcore_core: any
+  dartcore_db: any
+  dartcore_migrations: any
+  dartcore_sqlite: any
+  dartcore_postgres: any
+  dartcore_mysql: any
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.0

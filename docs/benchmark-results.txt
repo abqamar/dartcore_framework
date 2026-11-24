@@ -1,0 +1,35 @@
+Machine: Apple M1 Max, Dart 3.13.4, JIT (dart run). PostgreSQL 16 in Docker on loopback.
+Dart 
+
+== query builder (compile only, no I/O)
+simple select + where                              471226 ops/s        2.12 us/op
+complex: join/group/in/between/having               89044 ops/s       11.23 us/op
+
+== HTTP pipeline (in-process via app.send, no sockets)
+static route (200 routes registered)               181334 ops/s        5.51 us/op
+param route, 2 params (last registered)             88321 ops/s       11.32 us/op
+POST JSON echo                                     114888 ops/s        8.70 us/op
+404 (exception path)                                48028 ops/s       20.82 us/op
+
+== JSON serialization
+encodeJson 100 rows (DartCore, DateTime-aware)       9705 ops/s      103.04 us/op
+dart:convert jsonEncode 100 rows (baseline)         13442 ops/s       74.39 us/op
+
+== SQLite (in-memory) CRUD (through QueryBuilder + pool)
+insert (single row, returning)                      32759 ops/s       30.53 us/op
+find by primary key                                 71565 ops/s       13.97 us/op
+select 100 rows                                     21484 ops/s       46.55 us/op
+update by id                                       119954 ops/s        8.34 us/op
+insertMany 5000 rows (chunked)                     972006 rows/s
+
+== PostgreSQL 16 (local docker, loopback) CRUD (through QueryBuilder + pool)
+insert (single row, returning)                       1556 ops/s      642.66 us/op
+find by primary key                                  2763 ops/s      361.97 us/op
+select 100 rows                                      1988 ops/s      503.10 us/op
+update by id                                         2290 ops/s      436.63 us/op
+insertMany 5000 rows (chunked)                     185763 rows/s
+
+== connection pool behaviour (PostgreSQL)
+1 concurrent workers, pool max 10 (2000 inserts)       2184 ops/s   pool=PoolStats(size: 1, idle: 1, inUse: 0, waiting: 0)
+10 concurrent workers, pool max 10 (2000 inserts)       4134 ops/s   pool=PoolStats(size: 10, idle: 10, inUse: 0, waiting: 0)
+50 concurrent workers, pool max 10 (2000 inserts)       9217 ops/s   pool=PoolStats(size: 10, idle: 10, inUse: 0, waiting: 0)

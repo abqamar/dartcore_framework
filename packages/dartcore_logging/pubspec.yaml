@@ -1,0 +1,16 @@
+name: dartcore_logging
+description: "Structured logging with secret redaction, request-id correlation and console, file and in-memory handlers for DartCore backends."
+version: 0.1.0
+repository: https://github.com/abqamar/dartcore_framework/tree/main/packages/dartcore_logging
+issue_tracker: https://github.com/abqamar/dartcore_framework/issues
+topics:
+  - logging
+  - backend
+  - server
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+dependencies:
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.0

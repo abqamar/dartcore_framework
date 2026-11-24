@@ -1,0 +1,4 @@
+# DartCore project settings (read by `dartcore make:*`).
+architecture: mvc
+database: postgres
+auth: true

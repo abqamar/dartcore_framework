@@ -1,0 +1,3 @@
+# The suites share the same database servers and the migration suite runs
+# `migrate:fresh` (drops every table), so test files must not run in parallel.
+concurrency: 1

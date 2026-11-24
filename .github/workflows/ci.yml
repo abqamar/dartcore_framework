@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: dartcore
+          POSTGRES_PASSWORD: dartcore
+          POSTGRES_DB: dartcore_test
+        ports: ["54329:5432"]
+        options: >-
+          --health-cmd "pg_isready -U dartcore" --health-interval 2s --health-retries 30
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: dartcore
+          MYSQL_DATABASE: dartcore_test
+        ports: ["33069:3306"]
+        options: >-
+          --health-cmd "mysqladmin ping -h 127.0.0.1 -pdartcore" --health-interval 3s --health-retries 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: dart pub get
+      - name: Format
+        run: dart format --output=none --set-exit-if-changed packages examples integration_tests benchmarks
+      - name: Analyze
+        run: dart analyze --fatal-infos
+      - name: Unit tests (every package) and example tests
+        run: |
+          set -e
+          for d in packages/* examples/complete_application; do
+            if compgen -G "$d/test/*_test.dart" > /dev/null; then
+              echo "::group::$d"
+              (cd "$d" && dart test)
+              echo "::endgroup::"
+            fi
+          done
+      - name: Integration tests (SQLite, PostgreSQL, MySQL)
+        working-directory: integration_tests
+        run: dart test

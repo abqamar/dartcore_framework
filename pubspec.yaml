@@ -1,0 +1,38 @@
+name: dartcore_framework_workspace
+description: DartCore Framework monorepo workspace root.
+publish_to: none
+environment:
+  sdk: ^3.10.0
+workspace:
+  - packages/dartcore_core
+  - packages/dartcore_logging
+  - packages/dartcore_validation
+  - packages/dartcore_db
+  - packages/dartcore_sqlite
+  - packages/dartcore_postgres
+  - packages/dartcore_mysql
+  - packages/dartcore_api
+  - packages/dartcore_cli
+  - packages/dartcore_cache
+  - packages/dartcore_storage
+  - packages/dartcore_dashboard
+  - packages/dartcore_orm
+  - packages/dartcore_auth
+  - packages/dartcore_migrations
+  - packages/dartcore_framework
+  - integration_tests
+  - benchmarks
+  - examples/basic_api
+  - examples/complete_application
+  - examples/tasks_api
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.0
+
+# Melos 7+ reads its configuration from the workspace pubspec.
+melos:
+  name: dartcore_framework
+  scripts:
+    analyze: dart analyze --fatal-infos .
+    test: melos exec -c 1 -- dart test
+    format: dart format .

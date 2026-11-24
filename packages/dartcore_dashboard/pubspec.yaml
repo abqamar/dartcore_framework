@@ -1,0 +1,19 @@
+name: dartcore_dashboard
+description: "A runtime monitoring dashboard for DartCore apps: endpoints, latency percentiles, issues and logs, served from inside your app."
+version: 0.1.0
+repository: https://github.com/abqamar/dartcore_framework/tree/main/packages/dartcore_dashboard
+issue_tracker: https://github.com/abqamar/dartcore_framework/issues
+topics:
+  - monitoring
+  - dashboard
+  - backend
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+dependencies:
+  dartcore_api: ^0.1.0
+  dartcore_core: ^0.1.0
+  dartcore_logging: ^0.1.0
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.0
