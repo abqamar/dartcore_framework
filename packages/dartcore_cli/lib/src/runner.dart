@@ -287,11 +287,7 @@ Deployment (no Docker, no Dart on the server)
 
     final dbKey =
         (r['database'] as String?) ??
-        _ask(
-          'Database',
-          _databases.keys.where((k) => k != 'mssql').toList(),
-          'sqlite',
-        );
+        _ask('Database', _databases.keys.toList(), 'sqlite');
     final arch =
         (r['architecture'] as String?) ??
         _ask('Architecture', _architectures, 'mvc');
@@ -299,11 +295,6 @@ Deployment (no Docker, no Dart on the server)
         (r['auth'] as bool?) ??
         _confirm('Include authentication (JWT + refresh tokens)?', false);
     final db = _databases[dbKey]!;
-    if (db.key == 'mssql') {
-      throw CliException(
-        'SQL Server has no verified DartCore adapter yet. See docs/database-compatibility.md.',
-      );
-    }
 
     final root = Directory(p.join(_cwd.path, name));
     if (root.existsSync() && root.listSync().isNotEmpty) {
@@ -325,13 +316,16 @@ Deployment (no Docker, no Dart on the server)
       'database': db.key == 'sqlite' ? 'storage/database.sqlite' : package,
       'username': db.user,
       'password': '',
-      'ssl': dbKey == 'supabase' ? 'require' : 'disable',
+      'ssl': dbKey == 'supabase' || dbKey == 'mssql' ? 'require' : 'disable',
       'jwtSecret': jwtSecret,
       'architecture': arch,
       'auth': '$auth',
       'databaseNote': dbKey == 'supabase'
           ? '\n> **Supabase:** this project connects to your Supabase-hosted PostgreSQL directly. '
                 'Supabase Auth, Storage and Realtime are *not* part of DartCore yet.\n'
+          : dbKey == 'mssql'
+          ? '\n> **SQL Server is experimental:** the adapter (`dartcore_mssql`) is unit-tested but has not been verified against a live SQL Server by the DartCore project. '
+                'TLS is on (`DB_SSL=require` encrypts without verifying the server certificate); `DB_SSL=disable` would send the login unencrypted.\n'
           : '',
     };
 
@@ -359,6 +353,7 @@ Deployment (no Docker, no Dart on the server)
         'dartcore_sqlite',
         'dartcore_postgres',
         'dartcore_mysql',
+        'dartcore_mssql',
         'dartcore_migrations',
         'dartcore_auth',
         'dartcore_orm',

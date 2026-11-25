@@ -4,9 +4,8 @@ Honest status first: see [docs/status.md](docs/status.md). Items are ordered by 
 
 ## Next (0.2)
 
-1. **SQL Server adapter.** Install FreeTDS in CI, build `dartcore_mssql` on `mssql_connection`'s native parameter path, add
-   type conversion for its JSON results, run the shared contract suite against a SQL Server container. Resolve TLS/auth
-   questions listed in the spike.
+1. **Verify the SQL Server adapter.** `dartcore_mssql` exists (experimental, on the pure-Dart `mssql_dart`). Run the shared contract
+   suite and the migration suite against a real SQL Server in CI, fix what they find, then drop the experimental label.
 2. **OpenAPI** (`dartcore_openapi`): route metadata → OpenAPI 3.1, `/api/docs` (Swagger UI) and `/api/openapi.json`, disabled
    by default in production; wire up `dartcore docs:generate`.
 3. **Storage** (`dartcore_storage`): local disk (path-traversal-safe, size/type validation, signed URLs), then S3-compatible.

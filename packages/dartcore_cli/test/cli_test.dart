@@ -137,6 +137,23 @@ void main() {
           contains('not'),
           reason: 'documents what Supabase support is missing',
         );
+        expect(
+          await cli.run(['create', 'ms', '-d', 'mssql', '--no-pub-get']),
+          0,
+          reason: '$err',
+        );
+        expect(read('ms/lib/config/database.dart'), contains('registerMssql'));
+        expect(read('ms/pubspec.yaml'), contains('dartcore_mssql'));
+        final env = read('ms/.env');
+        expect(env, contains('DB_DRIVER=mssql'));
+        expect(env, contains('DB_PORT=1433'));
+        expect(env, contains('DB_USERNAME=sa'));
+        expect(
+          env,
+          contains('DB_SSL=require'),
+          reason: 'never default to an unencrypted SQL Server login',
+        );
+        expect(read('ms/README.md'), contains('experimental'));
       },
     );
 
@@ -191,8 +208,6 @@ void main() {
         Directory(p.join(tmp.parent.path, 'escape')).existsSync(),
         isFalse,
       );
-      expect(await cli.run(['create', 'ms', '-d', 'mssql', '--no-pub-get']), 1);
-      expect(err.toString(), contains('SQL Server'));
     });
   });
 

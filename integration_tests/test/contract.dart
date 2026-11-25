@@ -12,6 +12,7 @@ class EngineSpec {
     this.boolTrue = '1',
     required this.dropIfExists,
     this.supportsSavepoints = true,
+    this.timestampType = 'TIMESTAMP',
   });
 
   final String name;
@@ -25,6 +26,9 @@ class EngineSpec {
   final String boolTrue;
   final String Function(String table) dropIfExists;
   final bool supportsSavepoints;
+
+  /// Column type for a nullable date-time (`TIMESTAMP` is `rowversion` on SQL Server).
+  final String timestampType;
 }
 
 /// Behaviour every adapter must exhibit identically. Application CRUD code
@@ -58,7 +62,7 @@ void runContract(EngineSpec e, {required Future<void> Function() register}) {
     await db!.statement(
       'CREATE TABLE dc_users (id ${e.idColumn}, name VARCHAR(100) NOT NULL, '
       'email VARCHAR(100) UNIQUE, active ${e.boolType} NOT NULL DEFAULT ${e.boolTrue}, '
-      'balance DECIMAL(12,2) NOT NULL DEFAULT 0, created_at TIMESTAMP NULL)',
+      'balance DECIMAL(12,2) NOT NULL DEFAULT 0, created_at ${e.timestampType} NULL)',
     );
     await db!.statement(
       'CREATE TABLE dc_posts (id ${e.idColumn}, user_id INT, title VARCHAR(100))',

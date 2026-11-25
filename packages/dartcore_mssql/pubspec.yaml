@@ -1,0 +1,20 @@
+name: dartcore_mssql
+description: "Microsoft SQL Server adapter for DartCore on a pure-Dart driver: pooled connections, transactions, OUTPUT INSERTED and clear errors. Experimental."
+version: 0.1.0
+repository: https://github.com/abqamar/dartcore_framework/tree/main/packages/dartcore_mssql
+issue_tracker: https://github.com/abqamar/dartcore_framework/issues
+topics:
+  - sql-server
+  - mssql
+  - database
+  - backend
+resolution: workspace
+environment:
+  sdk: ^3.10.0
+dependencies:
+  dartcore_core: ^0.1.0
+  dartcore_db: ^0.1.0
+  mssql_dart: ^1.0.0
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.0

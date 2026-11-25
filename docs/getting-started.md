@@ -15,7 +15,7 @@ dartcore create my_api --database postgres --auth     # writes a project and run
 dart pub add dartcore_framework dartcore_postgres dartcore_migrations
 ```
 
-Pick the adapter you need: `dartcore_postgres`, `dartcore_mysql` or `dartcore_sqlite`. Requires Dart >= 3.10.
+Pick the adapter you need: `dartcore_postgres`, `dartcore_mysql`, `dartcore_sqlite` or `dartcore_mssql` (experimental). Requires Dart >= 3.10.
 
 **Until the first pub.dev release,** install from a checkout. `dartcore create --path <checkout>` writes the path
 dependencies and overrides for you:

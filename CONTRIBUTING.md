@@ -40,7 +40,7 @@ Checklist:
 4. `./scripts/test_all.sh` passes, including the PostgreSQL and MySQL integration suites.
 5. Dry run each package in dependency order and fix every warning:
    `dartcore_core`, `dartcore_logging`, `dartcore_validation`, `dartcore_db`, `dartcore_api`, `dartcore_sqlite`,
-   `dartcore_postgres`, `dartcore_mysql`, `dartcore_migrations`, `dartcore_orm`, `dartcore_auth`, `dartcore_cache`,
+   `dartcore_postgres`, `dartcore_mysql`, `dartcore_mssql`, `dartcore_migrations`, `dartcore_orm`, `dartcore_auth`, `dartcore_cache`,
    `dartcore_storage`, `dartcore_dashboard`, `dartcore_framework`, `dartcore_cli`:
    `cd packages/<name> && dart pub publish --dry-run`.
    A dependent's dry run only resolves once its dependencies are live on pub.dev, so publish in that order.

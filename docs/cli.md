@@ -16,7 +16,7 @@ dartcore create my_api -d postgres -a clean --auth
 ```
 
 * `--database` (`-d`): `postgres` | `mysql` | `sqlite` | `supabase` (direct PostgreSQL connection only; Supabase services are
-  not implemented). `mssql` is refused (no adapter).
+  not implemented). `mssql` generates an experimental project (the adapter is unit-tested but not verified against a live SQL Server; `DB_SSL=require` by default).
 * `--architecture` (`-a`): `simple` | `mvc` (default) | `clean` | `modular`. Controls where `make:*` puts files
   (`lib/controllers`, `lib/presentation/controllers` + `lib/domain` + `lib/data`, or `lib/modules/<m>/…`) and is recorded in
   `dartcore.yaml`.

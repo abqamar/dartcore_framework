@@ -7,6 +7,7 @@ All notable changes are recorded here. DartCore follows semantic versioning from
 ### Added
 * **Deployment without Docker.** `dartcore build` cross-compiles `server` and `console` binaries for Linux x64/arm64 (or the host) into `build/release/`;
   `dartcore deploy:init` writes a systemd unit, an nginx site and an idempotent `install.sh`; `dartcore doctor` checks `.env`, database, migrations, storage and port.
+* **`dartcore_mssql`** (experimental): Microsoft SQL Server adapter on the pure-Dart `mssql_dart` driver, so projects still compile to one binary. `dartcore create --database mssql` is now allowed (TLS on by default). Unit-tested; not yet verified against a live SQL Server (the shared contract suite in `integration_tests` is ready and skips when no server is reachable).
 * `examples/tasks_api` (the tutorial application, with tests) and `docs/tutorial.md`.
 * Per-package `README.md`, `CHANGELOG.md` and `example/` for every package; pub.dev metadata in every pubspec.
 
@@ -19,7 +20,7 @@ All notable changes are recorded here. DartCore follows semantic versioning from
 #### Database errors
 * Database errors are no longer opaque. `DartCoreException` has new optional `details` (the real reason: driver message, table/column/constraint, SQLSTATE) and `hint` (one actionable sentence); `toString()` prints them on extra lines, so console/log output now shows e.g. `relation "users" already exists` instead of only `Database query failed (42P07)`. `message` is unchanged and `details`/`hint` are never sent in HTTP responses (apart from the existing development-only `debug` block, which prints `toString()`).
 * `dartcore_postgres`, `dartcore_mysql`, `dartcore_sqlite` populate them for query and connect errors (connection refused, DNS, timeout, bad credentials, missing database/role, SSL). Passwords are never included.
-* `Migrator` keeps `details`/`hint` when wrapping a failed migration.
+* `Migrator` keeps `details`/`hint` when wrapping a failed migration, and `dartcore migrate` and `dartcore doctor` now print them (they printed only the bare message before).
 
 ## 0.1.0 – unreleased
 

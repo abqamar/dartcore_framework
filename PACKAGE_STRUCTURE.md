@@ -17,6 +17,7 @@ dartcore_framework/
 │   ├── dartcore_migrations/   schema builder, migrator, seeders, console
 │   ├── dartcore_orm/          models, relations
 │   ├── dartcore_auth/         JWT, refresh rotation, Argon2id, RBAC, sessions, DB stores
+│   ├── dartcore_mssql/        adapter (experimental)
 │   ├── dartcore_cache/        memory cache + facade
 │   └── dartcore_cli/          `dartcore` executable
 ├── examples/
@@ -29,7 +30,7 @@ dartcore_framework/
 └── .github/workflows/ci.yml
 ```
 
-Differences from the original proposal: no `dartcore_mssql`, `dartcore_supabase`, `dartcore_storage`, `dartcore_openapi`
+Differences from the original proposal: no `dartcore_supabase`, `dartcore_openapi`
 packages yet (see [docs/status.md](docs/status.md)); a single `complete_application` example plus the CLI-generated projects
 replaces the per-database example folders (each database is covered by `integration_tests`); no `melos.yaml` (Melos 7+ reads
 the `melos:` key in the root `pubspec.yaml`).

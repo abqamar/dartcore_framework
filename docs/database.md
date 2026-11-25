@@ -48,7 +48,10 @@ A timed-out query closes its connection (the server may still be running it).
 * **MySQL** – `dartcore_mysql`. Sessions are set to strict mode and UTC. `options: {'allow_public_key_retrieval': true}` for
   servers needing RSA key retrieval without TLS (understand the risk first).
 * **SQLite** – `dartcore_sqlite`. `database` is a path or `:memory:`; `options: {'wal': false, 'busy_timeout_ms': 5000}`.
-* **SQL Server** – no adapter yet; see [DATABASE_COMPATIBILITY.md](../DATABASE_COMPATIBILITY.md).
+* **SQL Server** – `dartcore_mssql` (**experimental**, on the pure-Dart `mssql_dart` driver). `registerMssql()`; `ssl: disable` sends the
+  login unencrypted, `SslMode.require` encrypts without verifying the (usually self-signed) certificate, `verifyFull` verifies it
+  (`options: {'ca_file': ...}`). `options: {'instance': 'SQLEXPRESS'}` for a named instance. Not yet verified against a live server;
+  see [DATABASE_COMPATIBILITY.md](../DATABASE_COMPATIBILITY.md).
 * **Supabase** – connect to the project's Postgres host with `DatabaseDriver.postgres` and `ssl: SslMode.require`. Supabase
   Auth/Storage/Realtime are separate services and **not implemented**. The service-role key must never be shipped to
   clients; row-level security is bypassed by direct connections with a privileged role.

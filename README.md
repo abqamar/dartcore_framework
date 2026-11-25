@@ -33,8 +33,8 @@ Future<void> main() async {
 ```
 
 > **Status: 0.1.0, pre-release.** The core, database layer (PostgreSQL, MySQL, SQLite), migrations, ORM, auth,
-> validation, cache, storage, dashboard and CLI are implemented and tested. Not implemented yet: OpenAPI/Swagger,
-> Redis cache, S3 storage, SQL Server adapter, Supabase services. Read [docs/status.md](docs/status.md) for the exact,
+> validation, cache, storage, dashboard and CLI are implemented and tested. The SQL Server adapter is **experimental** (not yet
+> run against a live server). Not implemented yet: OpenAPI/Swagger, Redis cache, S3 storage, Supabase services. Read [docs/status.md](docs/status.md) for the exact,
 > verified state, including what has and has not been run against a real server.
 
 ## Why DartCore
@@ -99,7 +99,7 @@ The **[complete tutorial](docs/tutorial.md)** builds a real API from zero to a s
 | [`dartcore_api`](packages/dartcore_api) | Router, request/response, middleware (CORS, rate limit, security headers), graceful shutdown |
 | [`dartcore_validation`](packages/dartcore_validation) | Rule-based validation: nested, wildcard, conditional, async `unique`/`exists` |
 | [`dartcore_db`](packages/dartcore_db) | Query builder, SQL dialects, pool, transactions with savepoints |
-| [`dartcore_postgres`](packages/dartcore_postgres) · [`mysql`](packages/dartcore_mysql) · [`sqlite`](packages/dartcore_sqlite) | Database adapters: install only the one you use |
+| [`dartcore_postgres`](packages/dartcore_postgres) · [`mysql`](packages/dartcore_mysql) · [`sqlite`](packages/dartcore_sqlite) · [`mssql`](packages/dartcore_mssql) (experimental) | Database adapters: install only the one you use |
 | [`dartcore_migrations`](packages/dartcore_migrations) | Schema builder, migrations, seeders, console commands |
 | [`dartcore_orm`](packages/dartcore_orm) | Explicit models, relationships, eager loading, soft deletes |
 | [`dartcore_auth`](packages/dartcore_auth) | Argon2id, JWT, refresh-token rotation, API tokens, sessions, RBAC |
@@ -128,7 +128,7 @@ The full flow, HTTPS, updates and rollback are in **[docs/deployment.md](docs/de
 [Cache & logging](docs/cache-logging.md) · [Dashboard](docs/dashboard.md) · [CLI](docs/cli.md) · [Testing](docs/testing.md) ·
 [Custom adapters](docs/custom-adapters.md)
 
-**Design:** [Architecture](ARCHITECTURE.md) · [API design](API_DESIGN.md) · [Security](SECURITY.md) ·
+**Design:** [How it works](docs/how-it-works.md) · [Architecture](ARCHITECTURE.md) · [API design](API_DESIGN.md) · [Security](SECURITY.md) ·
 [Database compatibility](DATABASE_COMPATIBILITY.md) · [Package structure](PACKAGE_STRUCTURE.md) · [Roadmap](ROADMAP.md) · [Status](docs/status.md)
 
 ## Examples

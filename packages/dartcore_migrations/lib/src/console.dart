@@ -105,6 +105,12 @@ class MigrationConsole {
       return 0;
     } on DartCoreException catch (e) {
       _out.writeln('Error: ${e.message}');
+      final details = e.details;
+      if (details != null && details.isNotEmpty) {
+        _out.writeln('  Details: $details');
+      }
+      final hint = e.hint;
+      if (hint != null && hint.isNotEmpty) _out.writeln('  Hint: $hint');
       return 1;
     }
   }
@@ -177,17 +183,19 @@ class MigrationConsole {
     return failed ? 1 : 0;
   }
 
-  /// `toString()` plus the driver's `details` / `hint` when the exception
-  /// provides them (looked up dynamically so older cores still compile).
+  /// One-line message plus the exception's `details` / `hint`, each on a
+  /// continuation line indented six spaces (the format `dartcore doctor`
+  /// parses). Newlines inside a value are flattened so they cannot break it.
   static String _describe(Object e) {
-    final b = StringBuffer(e.toString());
-    final dynamic d = e;
-    for (final name in ['details', 'hint']) {
-      try {
-        final v = name == 'details' ? d.details : d.hint;
-        if (v != null && '$v'.isNotEmpty) b.write('\n      $name: $v');
-      } catch (_) {}
+    if (e is! DartCoreException) return e.toString();
+    String one(String s) => s.replaceAll(RegExp(r'\s*\n\s*'), ' ');
+    final b = StringBuffer('${e.runtimeType}: ${e.message}');
+    final details = e.details;
+    if (details != null && details.isNotEmpty) {
+      b.write('\n      details: ${one(details)}');
     }
+    final hint = e.hint;
+    if (hint != null && hint.isNotEmpty) b.write('\n      hint: ${one(hint)}');
     return b.toString();
   }
 

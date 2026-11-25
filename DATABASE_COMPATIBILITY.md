@@ -7,9 +7,9 @@
 
 | Capability | SQLite | PostgreSQL | MySQL | SQL Server | Supabase |
 |---|---|---|---|---|---|
-| Adapter package | `dartcore_sqlite` | `dartcore_postgres` | `dartcore_mysql` | **none** | direct PG only |
-| Underlying driver | `sqlite3` 3.9 (FFI) | `postgres` 3.6 | `mysql_dart` 4.0 | `mssql_connection` (FFI + FreeTDS) *evaluated* | `postgres` |
-| Verified against a real server | ✅ (bundled SQLite) | ✅ PostgreSQL 16 | ✅ MySQL 8.4 | ❌ not run | ❌ not run |
+| Adapter package | `dartcore_sqlite` | `dartcore_postgres` | `dartcore_mysql` | `dartcore_mssql` (**experimental**) | direct PG only |
+| Underlying driver | `sqlite3` 3.9 (FFI) | `postgres` 3.6 | `mysql_dart` 4.0 | `mssql_dart` 1.0.0 (pure Dart, TDS 7.4) | `postgres` |
+| Verified against a real server | ✅ (bundled SQLite) | ✅ PostgreSQL 16 | ✅ MySQL 8.4 | ❌ not run (adapter unit-tested; suite ready in `integration_tests`) | ❌ not run |
 | CRUD, joins, aggregates, pagination | ✅ | ✅ | ✅ | dialect compiles (unit-tested), not run | = PostgreSQL |
 | Parameter binding | ✅ native | ✅ native (`$n`) | ✅ prepared (`?`) | dialect only | = PostgreSQL |
 | Transactions + rollback | ✅ | ✅ | ✅ | dialect only | = PostgreSQL |
@@ -40,7 +40,18 @@ engines. `numeric` values are returned as `num` when parseable, otherwise as `St
 sessions to UTC and re-tags results as UTC (found and fixed by the contract suite). MySQL implicitly commits DDL, so a
 failing migration can be partially applied. MariaDB uses the same driver but is **not** tested here.
 
-**SQL Server – feasibility spike result.** Checked `mssql_connection` 3.1.0, the only maintained candidate for Dart 3
+**SQL Server – `dartcore_mssql` (experimental).** Built on `mssql_dart` 1.0.0, a pure-Dart TDS driver that appeared after the
+spike below: no native libraries, so programs still compile to one binary (`dartcore build` produced a Linux x64 ELF for a generated
+project). Parameters are bound as named RPC parameters; DartCore's own pool is used; transactions send `BEGIN/COMMIT TRANSACTION`
+(the same statements the driver's own `transaction()` sends) and savepoints use `SAVE TRANSACTION`. `ssl: disable` sends the login
+unencrypted; `require` encrypts without verifying the certificate (SQL Server's default certificate is self-signed). What is verified:
+value conversion, error mapping, connection settings, a real connect to a closed port, the dialect and DDL compilation. What is **not**:
+anything against a running SQL Server, including the shared contract suite (`integration_tests/test/mssql_test.dart`, which skips when no
+server is reachable and refuses any database whose name lacks "test"). Known limits: `OUTPUT INSERTED.*` fails on tables with enabled
+triggers; strings are sent as `nvarchar` (a `varchar` column comparison may skip its index); `mssql_dart` is new (one release, its own TLS
+implementation, `tlslite`), so review it before trusting production data to it.
+
+**SQL Server – original feasibility spike result (before `mssql_dart`).** Checked `mssql_connection` 3.1.0, the only maintained candidate for Dart 3
 (`dart_mssql` was last published in 2019 for Dart 2). Findings:
 - It is **not pure Dart**: FFI over FreeTDS (`libsybdb`). Users must install FreeTDS (e.g. `brew install freetds`,
   `apt install libsybdb5`); the plugin bundles libraries for some platforms only.
@@ -53,7 +64,7 @@ failing migration can be partially applied. MariaDB uses the same driver but is 
   `integration_tests/docker-compose.yml` for when it is). TLS and Windows/Kerberos auth are unknown.
 - What *is* done and tested: `MssqlDialect` (brackets, `@pN`, `OFFSET … FETCH`, `OUTPUT INSERTED.*`, `SAVE TRANSACTION`,
   2100-parameter chunking) and MSSQL DDL compilation.
-Decision: no `dartcore_mssql` package is shipped; the CLI refuses `--database mssql`.
+Decision at the time: no adapter. Superseded: `dartcore_mssql` now exists on `mssql_dart` (above); `dartcore create --database mssql` works and marks the project experimental.
 
 **Supabase.** Direct PostgreSQL connection works through `dartcore_postgres` (`ssl: SslMode.require`) but was not tested
 against a Supabase project. Supabase *services* (Auth, Storage, Realtime, PostgREST/RPC) are a separate integration that

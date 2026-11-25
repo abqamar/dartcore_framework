@@ -335,6 +335,25 @@ void main() {
       expect(out.toString(), contains('Fix:'));
     });
 
+    test(
+      'a failing migration prints the reason and a hint, not just a code',
+      () async {
+        await db.statement('CREATE TABLE users (id INTEGER)');
+        final out = StringBuffer();
+        final c = MigrationConsole(
+          database: db,
+          migrations: [CreateUsers()],
+          out: out,
+        );
+        expect(await c.run(['migrate']), 1);
+        final text = out.toString();
+        expect(text, contains('Error:'));
+        expect(text, contains('Details:'));
+        expect(text, contains('already exists'));
+        expect(text, contains('Hint:'));
+      },
+    );
+
     test('production refuses destructive commands without --force', () async {
       final out = StringBuffer();
       final c = MigrationConsole(
